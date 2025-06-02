@@ -36,11 +36,11 @@ def main():
         screen.fill(white)
         print(clock.get_fps())
         ball = pygame.draw.circle(screen, black, (ball_x, ball_y), ball_radius)
-        hitbox_x = ball_x - ball_radius
-        hitbox_y = ball_y - ball_radius
-        hitbox_size = ball_radius * 2
-        hitbox = pygame.Rect(hitbox_x, hitbox_y, hitbox_size, hitbox_size)
-        # pygame.draw.rect(screen, red, hitbox,1)
+        hit_box_x = ball_x - ball_radius
+        hit_box_y = ball_y - ball_radius
+        hit_box_size = ball_radius * 2
+        hit_box = pygame.Rect(hit_box_x, hit_box_y, hit_box_size, hit_box_size)
+        # pygame.draw.rect(screen, red, hit_box,1)
         moving_speed = speed * (delta_time / 1000) * target_fps
         if is_reversed_x:
             ball_x -= moving_speed
@@ -48,9 +48,9 @@ def main():
         else:
             ball_x += moving_speed
             # ball_y -= moving_speed
-        if hitbox_x + hitbox_size >= screen_width or hitbox_y < 0:
+        if hit_box_x + hit_box_size >= screen_width or hit_box_y < 0:
             is_reversed_x = True
-        elif hitbox_x <= 0 or hitbox_y + hitbox_size> screen_height:
+        elif hit_box_x <= 0 or hit_box_y + hit_box_size > screen_height:
             is_reversed_x = False
         # if ball_y < 0:
         #     is_reversed_y = True
