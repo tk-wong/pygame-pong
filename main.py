@@ -64,5 +64,6 @@ def main():
         # ball.move(5,5)
 
 
+# https://stackoverflow.com/questions/55626092/how-to-calculate-reflection-angle-of-a-ball-colliding-with-a-wall
 if __name__ == '__main__':
     main()
