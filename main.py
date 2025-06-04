@@ -21,6 +21,13 @@ def main():
     white = (255, 255, 255)
     black = (0, 0, 0)
     red = (255, 0, 0)
+
+    bat_width = 10
+    bat_height = 50
+    padding = 10
+    left_bat = pygame.Rect(0 + padding, screen_height // 2 - bat_height // 2, bat_width, bat_height)
+    right_bat = pygame.Rect(screen_width - bat_width - padding, screen_height // 2 - bat_height // 2, bat_width, bat_height)
+
     screen.fill(white)
     running = True
     while running:
@@ -40,6 +47,8 @@ def main():
         hit_box_size = ball_radius * 2
         hit_box = pygame.Rect(hit_box_x, hit_box_y, hit_box_size, hit_box_size)
         # pygame.draw.rect(screen, red, hit_box,1)
+        pygame.draw.rect(screen, black, left_bat)
+        pygame.draw.rect(screen, black, right_bat)
         moving_speed = speed * (delta_time / 1000) * target_fps
         if is_reversed_x:
             ball_x -= moving_speed
@@ -50,9 +59,9 @@ def main():
             ball_y += moving_speed
         else:
             ball_y -= moving_speed
-        if ball_x - ball_radius < border.left or ball_x + ball_radius > border.right:
+        if hit_left(ball_radius, ball_x, border) or hit_right(ball_radius, ball_x, border):
             is_reversed_x = not is_reversed_x
-        if ball_y - ball_radius < border.top or ball_y + ball_radius > border.bottom:
+        if hit_top(ball_radius, ball_y, border) or hit_bottom(ball_radius, ball_y, border):
             is_reversed_y = not is_reversed_y
         # if ball_y < 0:
         #     is_reversed_y = True
@@ -64,6 +73,22 @@ def main():
         # Limit the frame rate
         # pygame.time.Clock().tick(fps)
         # ball.move(5,5)
+
+
+def hit_bottom(ball_radius, ball_y, border):
+    return ball_y + ball_radius > border.bottom
+
+
+def hit_top(ball_radius, ball_y, border):
+    return ball_y - ball_radius < border.top
+
+
+def hit_right(ball_radius, ball_x, border):
+    return ball_x + ball_radius > border.right
+
+
+def hit_left(ball_radius, ball_x, border):
+    return ball_x - ball_radius < border.left
 
 
 # https://stackoverflow.com/questions/55626092/how-to-calculate-reflection-angle-of-a-ball-colliding-with-a-wall
