@@ -8,13 +8,13 @@ def main():
     screen_height = 600
     fps = 10
     target_fps = 60
-    speed = 1
+    speed = 4.5
     ball_x, ball_y = (400, 300)
     ball_radius = 5
     is_reversed_x = False
     is_reversed_y = False
-
     screen = pygame.display.set_mode((screen_width, screen_height))
+    border = screen.get_rect()
     pygame.display.set_caption("Ping Pong")
     clock = pygame.time.Clock()
     # Set up colors
@@ -34,7 +34,6 @@ def main():
 
         delta_time = clock.tick()
         screen.fill(white)
-        print(clock.get_fps())
         ball = pygame.draw.circle(screen, black, (ball_x, ball_y), ball_radius)
         hit_box_x = ball_x - ball_radius
         hit_box_y = ball_y - ball_radius
@@ -44,14 +43,17 @@ def main():
         moving_speed = speed * (delta_time / 1000) * target_fps
         if is_reversed_x:
             ball_x -= moving_speed
-            # ball_y += moving_speed
         else:
             ball_x += moving_speed
-            # ball_y -= moving_speed
-        if hit_box_x + hit_box_size >= screen_width or hit_box_y < 0:
-            is_reversed_x = True
-        elif hit_box_x <= 0 or hit_box_y + hit_box_size > screen_height:
-            is_reversed_x = False
+
+        if is_reversed_y:
+            ball_y += moving_speed
+        else:
+            ball_y -= moving_speed
+        if ball_x - ball_radius < border.left or ball_x + ball_radius > border.right:
+            is_reversed_x = not is_reversed_x
+        if ball_y - ball_radius < border.top or ball_y + ball_radius > border.bottom:
+            is_reversed_y = not is_reversed_y
         # if ball_y < 0:
         #     is_reversed_y = True
         # elif ball_y > screen_height:
