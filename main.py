@@ -1,3 +1,5 @@
+import math
+
 import pygame
 
 
@@ -6,9 +8,8 @@ def main():
     # Set up the display
     screen_width = 800
     screen_height = 600
-    fps = 10
     target_fps = 60
-    speed = 4.5
+    ball_speed = 4.5
     ball_x, ball_y = (400, 300)
     ball_radius = 5
     is_reversed_x = False
@@ -26,20 +27,34 @@ def main():
     bat_height = 50
     padding = 10
     left_bat = pygame.Rect(0 + padding, screen_height // 2 - bat_height // 2, bat_width, bat_height)
-    right_bat = pygame.Rect(screen_width - bat_width - padding, screen_height // 2 - bat_height // 2, bat_width, bat_height)
+    right_bat = pygame.Rect(screen_width - bat_width - padding, screen_height // 2 - bat_height // 2, bat_width,
+                            bat_height)
+    pad_speed = 5
 
     screen.fill(white)
     running = True
     while running:
+        delta_time = clock.tick()
+        moving_speed = ball_speed * (delta_time / 1000) * target_fps
+        pad_moving_speed = math.ceil(pad_speed * (delta_time / 1000) * target_fps)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
+
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_UP] and right_bat.y > 0:
+            right_bat.y -= pad_moving_speed
+        if keys[pygame.K_DOWN] and right_bat.y + bat_height< border.bottom:
+            right_bat.y += pad_moving_speed
+        if keys[pygame.K_w] and left_bat.y > 0:
+            left_bat.y -= pad_moving_speed
+        if keys[pygame.K_s] and left_bat.y + bat_height < border.bottom:
+            left_bat.y += pad_moving_speed
         # Update the display
         pygame.display.flip()
         # Fill the screen with white color
 
-        delta_time = clock.tick()
         screen.fill(white)
         ball = pygame.draw.circle(screen, black, (ball_x, ball_y), ball_radius)
         hit_box_x = ball_x - ball_radius
@@ -49,7 +64,6 @@ def main():
         # pygame.draw.rect(screen, red, hit_box,1)
         pygame.draw.rect(screen, black, left_bat)
         pygame.draw.rect(screen, black, right_bat)
-        moving_speed = speed * (delta_time / 1000) * target_fps
         if is_reversed_x:
             ball_x -= moving_speed
         else:
@@ -91,6 +105,5 @@ def hit_left(ball_radius, ball_x, border):
     return ball_x - ball_radius < border.left
 
 
-# https://stackoverflow.com/questions/55626092/how-to-calculate-reflection-angle-of-a-ball-colliding-with-a-wall
 if __name__ == '__main__':
     main()
