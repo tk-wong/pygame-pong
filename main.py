@@ -14,6 +14,8 @@ def main():
     ball_radius = 5
     is_reversed_x = False
     is_reversed_y = False
+    is_hit_left = False
+    is_hit_right = False
     screen = pygame.display.set_mode((screen_width, screen_height))
     border = screen.get_rect()
     pygame.display.set_caption("Ping Pong")
@@ -42,28 +44,33 @@ def main():
                 pygame.quit()
                 exit()
 
+        # Update the display
+        # pygame.display.flip()
+        # Fill the screen with white color
+
+        # if is_hit_left and ball_x >= border.center[0]:
+        #     is_hit_left = False
+        # if is_hit_right and ball_x <= border.center[0]:
+        #     is_hit_right = False
+
+        screen.fill(white)
+        # hit_box_x = ball_x - ball_radius
+        # hit_box_y = ball_y - ball_radius
+        # hit_box_size = ball_radius * 2
+        # hit_box = pygame.Rect(hit_box_x, hit_box_y, hit_box_size, hit_box_size)
+        # pygame.draw.rect(screen, red, hit_box,1)
+        pygame.draw.rect(screen, black, left_bat)
+        pygame.draw.rect(screen, black, right_bat)
+        ball = pygame.draw.circle(screen, black, (ball_x, ball_y), ball_radius)
         keys = pygame.key.get_pressed()
         if keys[pygame.K_UP] and right_bat.y > 0:
             right_bat.y -= pad_moving_speed
-        if keys[pygame.K_DOWN] and right_bat.y + bat_height< border.bottom:
+        if keys[pygame.K_DOWN] and right_bat.y + bat_height < border.bottom:
             right_bat.y += pad_moving_speed
         if keys[pygame.K_w] and left_bat.y > 0:
             left_bat.y -= pad_moving_speed
         if keys[pygame.K_s] and left_bat.y + bat_height < border.bottom:
             left_bat.y += pad_moving_speed
-        # Update the display
-        pygame.display.flip()
-        # Fill the screen with white color
-
-        screen.fill(white)
-        ball = pygame.draw.circle(screen, black, (ball_x, ball_y), ball_radius)
-        hit_box_x = ball_x - ball_radius
-        hit_box_y = ball_y - ball_radius
-        hit_box_size = ball_radius * 2
-        hit_box = pygame.Rect(hit_box_x, hit_box_y, hit_box_size, hit_box_size)
-        # pygame.draw.rect(screen, red, hit_box,1)
-        pygame.draw.rect(screen, black, left_bat)
-        pygame.draw.rect(screen, black, right_bat)
         if is_reversed_x:
             ball_x -= moving_speed
         else:
@@ -73,10 +80,23 @@ def main():
             ball_y += moving_speed
         else:
             ball_y -= moving_speed
-        if hit_left(ball_radius, ball_x, border) or hit_right(ball_radius, ball_x, border):
-            is_reversed_x = not is_reversed_x
         if hit_top(ball_radius, ball_y, border) or hit_bottom(ball_radius, ball_y, border):
             is_reversed_y = not is_reversed_y
+        if hit_bat(ball, left_bat) or hit_bat(ball, right_bat):
+            is_reversed_x = not is_reversed_x
+            if hit_bat(ball, left_bat):
+                ball_x = left_bat.right + ball_radius
+                # is_hit_left = True
+                # is_hit_right = False
+            elif hit_bat(ball, right_bat):
+                ball_x = right_bat.left - ball_radius
+                # is_hit_right = True
+                # is_hit_left = False
+        elif hit_left(ball_radius, ball_x, border) or hit_right(ball_radius, ball_x, border):
+            ball_x,ball_y = border.center
+
+
+
         # if ball_y < 0:
         #     is_reversed_y = True
         # elif ball_y > screen_height:
@@ -103,6 +123,10 @@ def hit_right(ball_radius, ball_x, border):
 
 def hit_left(ball_radius, ball_x, border):
     return ball_x - ball_radius < border.left
+
+
+def hit_bat(ball, bat):
+    return ball.colliderect(bat)
 
 
 if __name__ == '__main__':
