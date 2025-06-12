@@ -16,6 +16,7 @@ def main():
     is_reversed_x = False
     is_reversed_y = False
     screen = pygame.display.set_mode((screen_width, screen_height))
+    font = pygame.font.Font(pygame.font.get_default_font(), 36)
     border = screen.get_rect()
     ball_x, ball_y = border.center
     pygame.display.set_caption("Ping Pong")
@@ -35,6 +36,8 @@ def main():
                     height=bat_height, color=object_color)
     pad_speed = 5
 
+    left_score = 0
+    right_score = 0
     screen.fill(white)
     running = True
     while running:
@@ -46,6 +49,16 @@ def main():
                 pygame.quit()
                 exit()
         screen.fill(background_color)
+        center_line_spacing = 20
+        center_line_width = 10
+        for i in range(0, screen_height, center_line_spacing):
+            pygame.draw.line(screen, object_color, (screen_width // 2, i), (screen_width // 2, i + 10),
+                             center_line_width)
+        left_score_text = font.render(str(left_score), True, object_color)
+        right_score_text = font.render(str(right_score), True, object_color)
+        text_padding = 20
+        screen.blit(left_score_text, (screen_width // 4, text_padding))
+        screen.blit(right_score_text, (screen_width * 3 // 4, text_padding))
         left_bat.draw(screen)
         right_bat.draw(screen)
         ball = pygame.draw.circle(screen, object_color, (ball_x, ball_y), ball_radius)
@@ -87,18 +100,20 @@ def main():
             ball_x, ball_y = border.center
             if hit_left_border:
                 is_reversed_x = False
+                right_score += 1
             else:
                 is_reversed_x = True
+                left_score += 1
             is_reversed_y = random.choice([True, False])
         pygame.display.update()
 
 
 def hit_bottom(ball_radius, ball_y, border):
-    return ball_y + ball_radius > border.bottom
+    return ball_y + ball_radius >= border.bottom
 
 
 def hit_top(ball_radius, ball_y, border):
-    return ball_y - ball_radius < border.top
+    return ball_y - ball_radius <= border.top
 
 
 def hit_right(ball_radius, ball_x, border):
