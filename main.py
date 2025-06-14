@@ -29,12 +29,12 @@ def main():
     bat_width = 10
     bat_height = 50
     padding = 10
+    pad_speed = 5
     left_bat = Bat(top_left_x=+ padding, top_left_y=screen_height // 2 - bat_height // 2, width=bat_width,
                    height=bat_height, color=object_color)
     right_bat = Bat(top_left_x=screen_width - bat_width - padding, top_left_y=screen_height // 2 - bat_height // 2,
                     width=bat_width,
                     height=bat_height, color=object_color)
-    pad_speed = 5
 
     left_score = 0
     right_score = 0
