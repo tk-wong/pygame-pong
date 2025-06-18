@@ -9,12 +9,11 @@ import pygame
 
 
 class GameRunningState(GameState):
-    def __init__(self, game_screen, left_bat, right_bat, ball_speed, ball_radius=5):
+    def __init__(self, game_screen, left_bat, right_bat, ball_speed=4.5, ball_radius=5):
         self.game_screen = game_screen
         self.left_bat = left_bat
         self.right_bat = right_bat
         self.ball_x, self.ball_y = game_screen.border.center
-        # self.ball_y = game_screen.border.centery
         self.ball_radius = ball_radius
         self.is_reversed_x = False
         self.is_reversed_y = False
@@ -82,12 +81,8 @@ class GameRunningState(GameState):
             self.is_reversed_x = not self.is_reversed_x
             if left_bat_hit:
                 self.ball_x = self.left_bat.rect.right + self.ball_radius
-                # is_hit_left = True
-                # is_hit_right = False
             elif right_bat_hit:
                 self.ball_x = self.right_bat.rect.left - self.ball_radius
-                # is_hit_right = True
-                # is_hit_left = False
         elif hit_left_border or hit_right_border:
             self.ball_x, self.ball_y = border.center
             if hit_left_border:
@@ -97,7 +92,7 @@ class GameRunningState(GameState):
                 self.is_reversed_x = True
                 self.left_score += 1
             self.is_reversed_y = random.choice([True, False])
-        # pygame.display.update()
+        return None
 
     def hit_bottom(self):
         return self.ball_y + self.ball_radius >= self.game_screen.border.bottom
