@@ -1,5 +1,7 @@
 import pygame
-from bat import Bat
+import sys
+from end_game_state import EndGameState
+# from bat import Bat
 from game_running_state import GameRunningState
 from game_screen import GameScreen
 
@@ -12,19 +14,16 @@ def main():
     # Set up colors
     white = (255, 255, 255)
     black = (0, 0, 0)
-    bat_width = 10
-    bat_height = 50
-    padding = 10
     game_screen = GameScreen(width=screen_width, height=screen_height, background_color=black, object_color=white)
-    left_bat = Bat(top_left_x=+ padding, top_left_y=screen_height // 2 - bat_height // 2, width=bat_width,
-                   height=bat_height, color=game_screen.object_color)
-    right_bat = Bat(top_left_x=screen_width - bat_width - padding, top_left_y=screen_height // 2 - bat_height // 2,
-                    width=bat_width,
-                    height=bat_height, color=game_screen.object_color)
 
-    current_game_state = GameRunningState(game_screen, left_bat, right_bat)
+    current_game_state = GameRunningState(game_screen)
+    # current_game_state = EndGameState(game_screen,0,0)
     running = True
     while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
         new_state = current_game_state.execute()
         if new_state is not None:
             current_game_state = new_state
