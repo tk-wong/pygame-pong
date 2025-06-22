@@ -51,13 +51,5 @@ class EndGameState(GameState):
                         pygame.quit()
                         sys.exit()
             elif event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-                        # Restart the game logic here
-                        # from main import main
-
-        # pygame.display.flip()
-
-        # Wait for a while before exiting
-
-        return None  # No new state to transition to
+                self.game_screen.quit()
+        return None

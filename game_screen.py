@@ -1,3 +1,5 @@
+import sys
+
 import pygame
 
 
@@ -20,3 +22,7 @@ class GameScreen:
 
     def fill_background(self):
         self.screen.fill(self.background_color)
+
+    def quit(self):
+        pygame.quit()
+        sys.exit()

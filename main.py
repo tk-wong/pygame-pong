@@ -1,9 +1,6 @@
 import pygame
-import sys
-from end_game_state import EndGameState
-# from bat import Bat
-from game_running_state import GameRunningState
 from game_screen import GameScreen
+from menu_state import MenuState
 
 
 def main():
@@ -14,17 +11,20 @@ def main():
     # Set up colors
     white = (255, 255, 255)
     black = (0, 0, 0)
+    # Create the game screen for managing the game display
     game_screen = GameScreen(width=screen_width, height=screen_height, background_color=black, object_color=white)
-
-    current_game_state = GameRunningState(game_screen)
-    # current_game_state = EndGameState(game_screen,0,0)
+    # set up the game state
+    current_game_state = MenuState(game_screen)
     running = True
+    # Main game loop
     while running:
         for event in pygame.event.get():
+            # check for quit event
             if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+                game_screen.quit()
+        # get the current game state and execute it
         new_state = current_game_state.execute()
+        # if the new state is not None, update the current game state
         if new_state is not None:
             current_game_state = new_state
         pygame.display.update()
