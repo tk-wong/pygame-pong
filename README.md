@@ -7,7 +7,7 @@ The classic Pong game implemented in Python using Pygame.
 # Installation
 1. Clone the repository:
    ```bash
-   git clone 
+   git clone https://github.com/tk-wong/pygame-pong.git
    ```
 2. Navigate to the project directory:
    ```bash
