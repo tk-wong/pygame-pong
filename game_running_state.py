@@ -1,20 +1,14 @@
 import math
 import random
 
+import end_game_state
 from bat import Bat
-from game_state import GameState
 import pygame
+import game_state
 
 
-# from bat import Bat
 
-
-class GameRunningState(GameState):
-    # left_bat = Bat(top_left_x= padding, top_left_y=screen_height // 2 - bat_height // 2, width=bat_width,
-    #                height=bat_height, color=game_screen.object_color)
-    # right_bat = Bat(top_left_x=screen_width - bat_width - padding, top_left_y=screen_height // 2 - bat_height // 2,
-    #                 width=bat_width,
-    #                 height=bat_height, color=game_screen.object_color)
+class GameRunningState( game_state.GameState):
     def __init__(self, game_screen, ball_speed=4.5, ball_radius=5):
         padding = 10
         self.game_screen = game_screen
@@ -100,9 +94,9 @@ class GameRunningState(GameState):
                 self.left_score += 1
             self.y_direction = random.choice([-1, 1])
         self.ball_x += moving_speed * self.x_direction
-        # if self.left_score >= 5 or self.right_score >= 5:
-        #     from end_game_state import EndGameState
-        #     return EndGameState(self.game_screen, self.left_score, self.right_score)
+        if self.left_score >= 5 or self.right_score >= 5:
+
+            return end_game_state.EndGameState(self.game_screen, self.left_score, self.right_score)
         return None
 
     def hit_bottom(self, ball_rect):

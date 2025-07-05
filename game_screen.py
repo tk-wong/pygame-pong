@@ -23,6 +23,7 @@ class GameScreen:
     def fill_background(self):
         self.screen.fill(self.background_color)
 
-    def quit(self):
+    @staticmethod
+    def quit_game():
         pygame.quit()
         sys.exit()

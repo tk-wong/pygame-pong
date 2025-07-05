@@ -1,4 +1,5 @@
 import pygame
+
 from game_screen import GameScreen
 from menu_state import MenuState
 
@@ -21,7 +22,7 @@ def main():
         for event in pygame.event.get():
             # check for quit event
             if event.type == pygame.QUIT:
-                game_screen.quit()
+                game_screen.quit_game()
         # get the current game state and execute it
         new_state = current_game_state.execute()
         # if the new state is not None, update the current game state
