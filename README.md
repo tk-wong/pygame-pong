@@ -1,5 +1,5 @@
 # PONG
-The classic Pong game implemented in Python using Pygame.
+The classic Pong game implemented in Python using Pygame-ce.
 # Requirements
 - Python 3.12 or higher
 - [uv](https://docs.astral.sh/uv/) (Python package manager)
