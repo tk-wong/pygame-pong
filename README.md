@@ -1,4 +1,5 @@
 # PONG
+![game screenshot](image/game_screenshot.png)
 The classic Pong game implemented in Python using Pygame-ce.
 # Requirements
 - Python 3.12 or higher
